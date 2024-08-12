@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { SQLiteProvider} from 'expo-sqlite/next';
 import { StatusBar } from 'expo-status-bar';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import * as FileSystem from 'expo-file-system'; // импорт из файловой системы
@@ -36,18 +37,12 @@ export default function App() {
     </View>
   );
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <React.Suspense>
+      <SQLiteProvider databaseName="mySQLiteDB.db" useSuspense>
+
+      </SQLiteProvider>
+    </React.Suspense>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
