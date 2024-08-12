@@ -1,9 +1,14 @@
 import * as React from 'react';
 import { SQLiteProvider} from 'expo-sqlite/next';
 import { StatusBar } from 'expo-status-bar';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Text, View } from 'react-native';
 import * as FileSystem from 'expo-file-system'; // импорт из файловой системы
 import { Asset } from 'expo-asset'; // импорт из актива Expo
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
+import Home from "./screens/Home";
+
+const Stack = createNativeStackNavigator(); // стековая навигация
 
 const loadDatabase = async () => {
   const dbName = "mySQLiteDB.db";
@@ -37,11 +42,22 @@ export default function App() {
     </View>
   );
   return (
-    <React.Suspense>
-      <SQLiteProvider databaseName="mySQLiteDB.db" useSuspense>
-
-      </SQLiteProvider>
-    </React.Suspense>
+    <NavigationContainer>
+      <React.Suspense>
+        <SQLiteProvider databaseName="mySQLiteDB.db" useSuspense>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Home"
+              component={Home}
+              options={{
+                headerTitle: "Incexp",
+                headerLargeTitle: true,
+              }}
+            />
+          </Stack.Navigator>
+        </SQLiteProvider>
+      </React.Suspense>
+    </NavigationContainer>
   );
 }
 
