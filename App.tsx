@@ -43,7 +43,14 @@ export default function App() {
   );
   return (
     <NavigationContainer>
-      <React.Suspense>
+      <React.Suspense
+        fallback={
+          <View style={{ flex: 1}}>
+            <ActivityIndicator size={"large"} />
+            <Text>Loading Database...</Text>
+          </View>
+        }
+      >
         <SQLiteProvider databaseName="mySQLiteDB.db" useSuspense>
           <Stack.Navigator>
             <Stack.Screen
