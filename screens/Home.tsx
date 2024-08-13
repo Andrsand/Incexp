@@ -22,6 +22,11 @@ export default function Home() {
             `SELECT * FROM Transactions ORDER BY date DESC;`
         );
         setTransactions(result);
+
+        const categoriesResult = await db.getAllAsync<Category>(
+            `SELECT * FROM Categories;`
+        );
+        setCategories(categoriesResult);
     }
 
     async function deleteTransaction(id: number) {
