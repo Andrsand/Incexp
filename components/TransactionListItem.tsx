@@ -21,6 +21,9 @@ export default function TransactionListItem({
     const emoji = categoryEmojies[categoryInfo?.name ?? "Default"];
     return (
         <Card>
+        <View style={styles.row}>
+            <View style={{ width: "40%", gap: 3 }}>
+            
             <Amount
                 amount={transaction.amount}
                 color={color}
@@ -31,11 +34,13 @@ export default function TransactionListItem({
                 categoryInfo={categoryInfo}
                 emoji={emoji}
             />
+            </View>
                 <TransactionInfo
                 date={transaction.date}
                 description={transaction.description}
                 id={transaction.id}
             />
+            </View>
         </Card>
         
     );
