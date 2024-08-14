@@ -21,10 +21,11 @@ export default function TransactionListItem({
     const emoji = categoryEmojies[categoryInfo?.name ?? "Default"];
     return (
         <Card>
-            <Amount
-                amount={transaction.amount}
-                color={color}
-                iconName={iconName}
+            <Amount amount={transaction.amount} color={color} iconName={iconName} />
+            <CategoryItem
+                categoryColor={categoryColor}
+                categoryInfo={categoryInfo}
+                emoji={emoji}
             />
         </Card>
         
