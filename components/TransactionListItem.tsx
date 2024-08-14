@@ -21,16 +21,45 @@ export default function TransactionListItem({
     const emoji = categoryEmojies[categoryInfo?.name ?? "Default"];
     return (
         <Card>
-            <Amount amount={transaction.amount} color={color} iconName={iconName} />
+            <Amount
+                amount={transaction.amount}
+                color={color}
+                iconName={iconName}
+            />
             <CategoryItem
                 categoryColor={categoryColor}
                 categoryInfo={categoryInfo}
                 emoji={emoji}
             />
+                <TransactionInfo
+                date={transaction.date}
+                description={transaction.description}
+                id={transaction.id}
+            />
         </Card>
         
     );
 }
+
+    function TransactionInfo({
+    id,
+    date,
+    description,
+    }: {
+    id: number;
+    date: number;
+    description: string;
+    }) {
+    return (
+        <View style={{ flexGrow: 1, gap: 6, flexShrink: 1 }}>
+        <Text style={{ fontSize: 16, fontWeight: "bold" }}>{description}</Text>
+        <Text>Transaction number {id}</Text>
+        <Text style={{ fontSize: 12, color: "gray" }}>
+            {new Date(date).toDateString()}
+        </Text>
+        </View>
+    );
+    }
 
     function CategoryItem({
     categoryColor,
