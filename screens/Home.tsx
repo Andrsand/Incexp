@@ -131,7 +131,7 @@ export default function Home() {
         
         return (
              
-            <Card>
+            <Card style={styles.container}>
                 <Text style={styles.periodTitle}>Summary for {readablePeriod}</Text>
                 <Text style={styles.summaryText}>
                     Income:{" "}
