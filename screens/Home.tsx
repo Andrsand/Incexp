@@ -86,6 +86,24 @@ export default function Home() {
         });
     }
 
+        async function insertTransaction(transaction: Transaction) {
+    db.withTransactionAsync(async () => {
+      await db.runAsync(
+        `
+        INSERT INTO Transactions (category_id, amount, date, description, type) VALUES (?, ?, ?, ?, ?);
+      `,
+        [
+          transaction.category_id,
+          transaction.amount,
+          transaction.date,
+          transaction.description,
+          transaction.type,
+        ]
+      );
+      await getData();
+    });
+  }
+
     return (
 
         <ScrollView
@@ -94,6 +112,7 @@ export default function Home() {
                 paddingVertical: 170
             }}
         >
+            <AddTransaction insertTransaction={insertTransaction} />
             <TransactionSummary
                 totalExpenses={transactionsByMonth.totalExpenses}
                 totalIncome={transactionsByMonth.totalIncome}
