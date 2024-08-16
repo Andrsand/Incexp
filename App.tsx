@@ -7,6 +7,7 @@ import { Asset } from 'expo-asset'; // импорт из актива Expo
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import Home from "./screens/Home";
+import Payment from "./screens/Payment";
 
 const Stack = createNativeStackNavigator(); // стековая навигация
 
@@ -56,6 +57,14 @@ export default function App() {
             <Stack.Screen
               name="Home"
               component={Home}
+              options={{
+                headerTitle: "Incexp",
+                headerLargeTitle: true,
+              }}
+            />
+            <Stack.Screen
+              name="Payment"
+              component={Payment}
               options={{
                 headerTitle: "Incexp",
                 headerLargeTitle: true,

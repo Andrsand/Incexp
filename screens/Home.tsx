@@ -28,6 +28,7 @@ type StackParamList = {
 };
 
 export default function Home() {
+    const navigation = useNavigation();
     const [categories, setCategories] = React.useState<Category[]>([]);
     const [transactions, setTransactions] = React.useState<Transaction[]>([]);
     const [transactionsByMonth, setTransactionsByMonth] =
@@ -105,13 +106,16 @@ export default function Home() {
   }
 
     return (
-
         <ScrollView
             contentContainerStyle={{
                 adding: 15,
                 paddingVertical: 170
             }}
         >
+            <Button
+                title="Go to payment"
+                onPress={() => navigation.navigate("Payment")}
+            />    
             <AddTransaction insertTransaction={insertTransaction} />
             <TransactionSummary
                 totalExpenses={transactionsByMonth.totalExpenses}
