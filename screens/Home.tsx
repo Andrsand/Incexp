@@ -1,15 +1,15 @@
 import * as React from "react";
 import {
-  Button,
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextStyle,
-  TouchableHighlight,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
+    Button,
+    Platform,
+    Pressable,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextStyle,
+    TouchableHighlight,
+    TouchableOpacity,
+    TouchableWithoutFeedback,
     View,
 } from "react-native";
 import { Category, Transaction, TransactionsByMonth } from "../types";
@@ -46,7 +46,9 @@ export default function Home() {
 
     async function getData() {
         const result = await db.getAllAsync<Transaction>(
-            `SELECT * FROM Transactions ORDER BY date DESC;`
+            `SELECT * FROM Transactions
+            ORDER BY date DESC
+            LIMIT 10;`
         );
         setTransactions(result);
 
@@ -69,8 +71,8 @@ export default function Home() {
         const transactionsByMonth = await db.getAllAsync<TransactionsByMonth>(
             `
         SELECT
-            COALESCE(SUM(CASE WHEN type = 'Expense' THEN amount ELSE 0 END), 0) AS totalExpenses,
-            COALESCE(SUM(CASE WHEN type = 'Income' THEN amount ELSE 0 END), 0) AS totalIncome
+        COALESCE(SUM(CASE WHEN type = 'Expense' THEN amount ELSE 0 END), 0) AS totalExpenses,
+        COALESCE(SUM(CASE WHEN type = 'Income' THEN amount ELSE 0 END), 0) AS totalIncome
         FROM Transactions
         WHERE date >= ? AND date <= ?;
         `,
@@ -85,24 +87,24 @@ export default function Home() {
             await getData();
         });
     }
-
+        // функция добавления транзакций в БД
         async function insertTransaction(transaction: Transaction) {
-    db.withTransactionAsync(async () => {
-      await db.runAsync(
+        db.withTransactionAsync(async () => {
+        await db.runAsync(
         `
         INSERT INTO Transactions (category_id, amount, date, description, type) VALUES (?, ?, ?, ?, ?);
-      `,
+        `,
         [
-          transaction.category_id,
-          transaction.amount,
-          transaction.date,
-          transaction.description,
-          transaction.type,
+            transaction.category_id,
+            transaction.amount,
+            transaction.date,
+            transaction.description,
+            transaction.type,
         ]
-      );
-      await getData();
-    });
-  }
+        );
+        await getData();
+        });
+    }
 
     return (
 
@@ -112,11 +114,12 @@ export default function Home() {
                 paddingVertical: 170
             }}
         >
-            <AddTransaction insertTransaction={insertTransaction} />
+            <SummaryChart />
+            <AddTransaction insertTransaction={insertTransaction}  /* компонент добавление транзакции */ /> 
             <TransactionSummary
                 totalExpenses={transactionsByMonth.totalExpenses}
                 totalIncome={transactionsByMonth.totalIncome}
-            />
+            /> 
             <TransactionList
                 categories={categories}
                 transactions={transactions}
@@ -146,10 +149,10 @@ export default function Home() {
         const formatMoney = (value: number) => {
             const absValue = Math.abs(value).toFixed(2);
             return `${value < 0 ? "-" : ""}$${absValue}`;
-       };
+        };
         
         return (
-             
+            
             <Card style={styles.container}>
                 <Text style={styles.periodTitle}>Summary for {readablePeriod}</Text>
                 <Text style={styles.summaryText}>
