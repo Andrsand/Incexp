@@ -48,7 +48,7 @@ export default function Home() {
         const result = await db.getAllAsync<Transaction>(
             `SELECT * FROM Transactions
             ORDER BY date DESC
-            LIMIT 10;`
+            LIMIT 30;`
         );
         setTransactions(result);
 
@@ -58,13 +58,13 @@ export default function Home() {
         setCategories(categoriesResult);
 
         const now = new Date();
-        // Set to the first day of the current month
+        // Устанавливается на первый день текущего месяца.
         const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-        // Get the first day of the next month, then subtract one millisecond to get the end of the current month
+        // Получите первый день следующего месяца, затем вычтите одну миллисекунду, чтобы получить конец текущего месяца.
         const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
         endOfMonth.setMilliseconds(endOfMonth.getMilliseconds() - 1);
 
-        // Convert to Unix timestamps (seconds)
+        // Преобразование в временные метки Unix (секунды)
         const startOfMonthTimestamp = Math.floor(startOfMonth.getTime() / 1000);
         const endOfMonthTimestamp = Math.floor(endOfMonth.getTime() / 1000);
 
@@ -139,13 +139,13 @@ export default function Home() {
             year: "numeric",
         });
 
-        // Function to determine the style based on the value (positive or negative)
+        // Функция определения стиля на основе значения (положительного или отрицательного)
         const getMoneyTextStyle = (value: number): TextStyle => ({
             fontWeight: "bold",
-            color: value < 0 ? "#ff4500" : "#2e8b57", // Red for negative, custom green for positive
+            color: value < 0 ? "#ff4500" : "#2e8b57", // Красный для негатива, зеленый для позитива
         });
 
-        // Helper function to format monetary values
+        // Вспомогательная функция для форматирования денежных значений
         const formatMoney = (value: number) => {
             const absValue = Math.abs(value).toFixed(2);
             return `${value < 0 ? "-" : ""}$${absValue}`;
@@ -192,5 +192,4 @@ export default function Home() {
             color: "#333",
             marginBottom: 10,
         },
-        // Removed moneyText style since we're now generating it dynamically
     });
